@@ -1,10 +1,10 @@
 {
-  "name": "generator-gulp-webapp",
-  "version": "0.2.0",
+  "name": "generator-famous-polymer-browserify-gulp",
+  "version": "0.1.0",
   "description": "Scaffold out a front-end web app",
-  "license": "BSD",
-  "repository": "yeoman/generator-gulp-webapp",
-  "author": "The Yeoman Team",
+  "license": "ISC",
+  "repository": "mediahack/generator-famous-polymer-browserify-gulp",
+  "author": "mediahack <code@mediahack.com> (http://blog.mediahack.com)",
   "main": "app/index.js",
   "engines": {
     "node": ">=0.10.0",
@@ -24,6 +24,10 @@
     "h5bp",
     "modernizr",
     "jquery",
+    "famous",
+    "famo.us",
+    "polymer",
+    "browserify",
     "gulp"
   ],
   "dependencies": {
@@ -38,6 +42,11 @@
     "gulp": ">=3.5.0"
   },
   "devDependencies": {
-    "mocha": "*"
+    "mocha": "*",
+    "gulp-sass": "^1.1.0",
+    "gulp-filter": "^1.0.2",
+    "browser-sync": "^1.3.6",
+    "gulp-sourcemaps": "1.2.8",
+    "gulp-shell": "0.2.10"
   }
 }
