@@ -47,19 +47,35 @@ module.exports = yeoman.generators.Base.extend({
       type: 'checkbox',
       name: 'features',
       message: 'What more would you like?',
-      choices: [{
-        name: 'Sass',
-        value: 'includeSass',
-        checked: true
-      }, {
-        name: 'Bootstrap',
-        value: 'includeBootstrap',
-        checked: true
-      }, {
-        name: 'Modernizr',
-        value: 'includeModernizr',
-        checked: true
-      }]
+      choices: [
+        {
+          name: 'Famo.us',
+          value: 'includeFamous',
+          checked: true
+        },
+        {
+          name: 'Polymer',
+          value: 'includePolymer',
+          checked: true
+        },
+        {
+          name: 'Browserify',
+          value: 'includeBrowserify',
+          checked: true
+        },
+        {
+          name: 'Sass',
+          value: 'includeSass',
+          checked: false
+        }, {
+          name: 'Bootstrap (default is Google material design)',
+          value: 'includeBootstrap',
+          checked: false
+        }, {
+          name: 'Modernizr',
+          value: 'includeModernizr',
+          checked: false
+        }]
     }];
 
     this.prompt(prompts, function (answers) {
@@ -71,6 +87,9 @@ module.exports = yeoman.generators.Base.extend({
 
       // manually deal with the response, get back and store the results.
       // we change a bit this way of doing to automatically do this in the self.prompt() method.
+      this.includeFamous = hasFeature('includeFamous');
+      this.includePolymer = hasFeature('includePolymer');
+      this.includeBrowserify = hasFeature('includeBrowserify');
       this.includeSass = hasFeature('includeSass');
       this.includeBootstrap = hasFeature('includeBootstrap');
       this.includeModernizr = hasFeature('includeModernizr');
@@ -80,25 +99,41 @@ module.exports = yeoman.generators.Base.extend({
   },
 
   writing: {
-    gulpfile: function() {
+    gulpfile: function () {
       this.template('gulpfile.js');
     },
 
-    packageJSON: function() {
+    packageJSON: function () {
       this.template('_package.json', 'package.json');
     },
 
-    git: function() {
+    git: function () {
       this.copy('gitignore', '.gitignore');
       this.copy('gitattributes', '.gitattributes');
     },
 
-    bower: function() {
+    bower: function () {
       var bower = {
         name: this._.slugify(this.appname),
         private: true,
         dependencies: {}
       };
+
+      if (this.includeFamous) {
+        bower.dependencies.famous = '~0.3.4';
+      }
+
+      if (this.includePolymer) {
+        bower.dependencies.polymer = '~0.5.4';
+      }
+
+      if (this.includeBrowserify) {
+        bower.dependencies.browserify = '~0.5.4';
+      }
+
+      if (this.includeModernizr) {
+        bower.dependencies.modernizr = '~2.8.1';
+      }
 
       if (this.includeBootstrap) {
         var bs = 'bootstrap' + (this.includeSass ? '-sass-official' : '');
